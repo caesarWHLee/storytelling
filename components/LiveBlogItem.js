@@ -16,13 +16,22 @@ const GlobalStyles = createGlobalStyle`
 const lightbox = css`
   width: 640px;
   margin: 212px auto 40px auto;
+
+  @media (max-width: 768px) {
+    width: unset;
+    margin: 157px 16px 40px 16px;
+  }
 `
 
 const Wrapper = styled.div`
-  ${({ showAsLightbox }) => (showAsLightbox ? lightbox : '')}
   position: relative;
   background-color: ${(props) => (props.pined ? '#fdf6ec' : '#fff')};
   margin-top: 40px;
+
+  @media (max-width: 768px) {
+    margin-top: 28px;
+  }
+  ${({ showAsLightbox }) => (showAsLightbox ? lightbox : '')}
 `
 
 const LiveBlogWrapper = styled.div`
@@ -30,6 +39,10 @@ const LiveBlogWrapper = styled.div`
   height: ${({ expanded }) => (expanded ? 'unset' : '479px')};
   min-height: ${({ expanded }) => (expanded ? '479px' : 'unset')};
   padding: 20px 128px 56px 128px;
+
+  @media (max-width: 768px) {
+    padding: 28px 12px 56px 12px;
+  }
 `
 
 const LiveBlog = styled.div`
@@ -37,7 +50,7 @@ const LiveBlog = styled.div`
   height: 100%;
 `
 
-export default function LiveBlogItem({ pined, article }) {
+export default function LiveBlogItem({ pined }) {
   const [expanded, setExpanded] = useState(false)
   const [showLightbox, setShowLightbox] = useState(false)
 
@@ -60,14 +73,19 @@ export default function LiveBlogItem({ pined, article }) {
   }
 
   let LiveBlogItem = (
-    <Wrapper pined={pined} showAsLightbox={showLightbox}>
+    <Wrapper
+      pined={pined}
+      showAsLightbox={showLightbox}
+      onClick={(e) => {
+        e.stopPropagation()
+      }}
+    >
       <LiveBlogTopActions
         pined={pined}
         showLighbox={showLightboxClickedHandler}
       />
       <LiveBlogWrapper expanded={expanded}>
         <LiveBlog>
-          <h1>{article.id}</h1>
           <LiveBlogItemHeader />
           <LiveBlogItemContent />
         </LiveBlog>

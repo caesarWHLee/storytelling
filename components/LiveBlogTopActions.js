@@ -12,6 +12,11 @@ const PinIconWrapper = styled.div`
   width: 44px;
   height: 44px;
   position: relative;
+
+  @media (max-width: 768px) {
+    width: 28px;
+    height: 28px;
+  }
 `
 
 const Triangle = styled.div`
@@ -20,16 +25,31 @@ const Triangle = styled.div`
   border-style: solid;
   border-width: 44px 44px 0 0;
   border-color: #000000 transparent transparent transparent;
+
+  @media (max-width: 768px) {
+    border-width: 28px 28px 0 0;
+  }
 `
 
 const PinedIcon = styled.img`
   position: absolute;
   top: 5px;
   left: 6px;
+
+  @media (max-width: 768px) {
+    width: 12px;
+    height: 12px;
+    top: 4px;
+    left: 3px;
+  }
 `
 
 const LightboxButton = styled.button`
   margin: 16px 16px 0 0;
+
+  @media (max-width: 768px) {
+    margin: 12px 12px 0 0;
+  }
 `
 
 export default function LiveBlogTopActions({ pined, showLighbox }) {

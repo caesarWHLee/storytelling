@@ -14,6 +14,11 @@ const PublishInfoWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  @media (max-width: 768px) {
+    align-items: start;
+    flex-direction: column;
+  }
 `
 
 const PublisherWrapper = styled.div`
@@ -28,6 +33,10 @@ const PublisherAvatar = styled.span`
   background: #c4c4c4;
   border: 1px solid #000000;
   border-radius: 50%;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
 `
 const PublisherName = styled.span`
   margin-left: 8px;
@@ -35,6 +44,10 @@ const PublisherName = styled.span`
   font-size: 12px;
   font-weight: 900;
   line-height: 17px;
+
+  @media (max-width: 768px) {
+    margin-left: unset;
+  }
 `
 
 const PublishDate = styled.div`
@@ -42,6 +55,12 @@ const PublishDate = styled.div`
   transform: scale(calc(10 / 12));
   font-weight: 900;
   line-height: 14px;
+
+  @media (max-width: 768px) {
+    position: relative;
+    left: -6%;
+    margin-top: 4px;
+  }
 `
 
 export default function LiveBlogItemHeader() {

@@ -6,6 +6,10 @@ const Wrapper = styled.div`
   position: relative;
   justify-content: space-between;
   align-items: center;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `
 
 const Divider = styled.div`
@@ -14,11 +18,21 @@ const Divider = styled.div`
   width: 384px;
   height: 0;
   border: 2px solid #000;
+
+  @media (max-width: 768px) {
+    position: relative;
+    left: 0;
+    width: 100%;
+  }
 `
 
 const Control = styled.div`
   display: flex;
   align-items: center;
+
+  @media (max-width: 768px) {
+    margin-top: 18px;
+  }
 `
 
 const ControlTitle = styled.div`

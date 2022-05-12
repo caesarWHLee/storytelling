@@ -2,22 +2,37 @@ import styled from 'styled-components'
 
 const Wrapper = styled.div`
   margin-top: 16px;
+
+  @media (max-width: 768px) {
+    margin-top: 8px;
+  }
 `
 
 const Title = styled.div`
   font-size: 24px;
   font-weight: 700;
   line-height: 34.75px;
+
+  @media (max-width: 768px) {
+    font-size: 18px;
+    line-height: 26px;
+  }
 `
 
 const HeroImageWrapper = styled.div`
   margin-top: 20px;
   width: 100%;
   position: relative;
+
+  img {
+    width: 100%;
+    display: block;
+  }
 `
 
 const HeroImageCaption = styled.div`
   position: relative;
+  margin-top: 4px;
   width: 133%;
   left: -16.65%;
   font-size: 12px;

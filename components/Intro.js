@@ -1,13 +1,22 @@
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
-  padding-bottom: 29px;
+  padding-bottom: 40px;
+
+  @media (max-width: 768px) {
+    padding-bottom: 20px;
+  }
 `
 
 const Title = styled.div`
   font-size: 28px;
   font-weight: 900;
   line-height: 41px;
+
+  @media (max-width: 768px) {
+    font-size: 18px;
+    line-height: 26px;
+  }
 `
 
 const Description = styled.p`
