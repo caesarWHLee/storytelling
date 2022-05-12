@@ -5,11 +5,12 @@ const Wrapper = styled.div`
   margin-top: 29px;
 `
 
-export default function LiveBlogItems() {
+export default function LiveBlogItems(props) {
   return (
     <Wrapper>
-      {[1, 2, 3].map((e) => (
-        <LiveBlogItem key={e} pined={e === 1} />
+      <LiveBlogItem pined article={props.pinedArticle} />
+      {props.articles.map((article) => (
+        <LiveBlogItem key={article.id} article={article} />
       ))}
     </Wrapper>
   )

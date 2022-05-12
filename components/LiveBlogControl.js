@@ -42,10 +42,13 @@ const ControlButton = styled.button`
   cursor: pointer;
 `
 
-// const ControlItem
-
-export default function LiveBlogControl() {
+export default function LiveBlogControl({ changeOrder }) {
   const [newToOld, setNewToOld] = useState(false)
+
+  const changeOrderHandler = () => {
+    setNewToOld((value) => !value)
+    changeOrder()
+  }
 
   return (
     <Wrapper>
@@ -53,10 +56,7 @@ export default function LiveBlogControl() {
       <Divider />
       <Control>
         <ControlTitle>{newToOld ? '從新到舊' : '從舊到新'}</ControlTitle>
-        <ControlButton
-          onClick={() => setNewToOld((value) => !value)}
-          newToOld={newToOld}
-        >
+        <ControlButton onClick={changeOrderHandler} newToOld={newToOld}>
           <img src="/images/icon-order.svg" alt="live blog order" />
         </ControlButton>
       </Control>
