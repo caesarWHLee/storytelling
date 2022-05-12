@@ -1,3 +1,10 @@
+import Intro from '../components/Intro'
+import LiveBlogWrapper from '../components/LiveBlogWrapper'
+
 export default function LiveBlogContainr() {
-  return <div>Text...</div>
+  return (
+    <LiveBlogWrapper>
+      <Intro />
+    </LiveBlogWrapper>
+  )
 }
