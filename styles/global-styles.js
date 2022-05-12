@@ -14,4 +14,13 @@ export const GlobalStyles = createGlobalStyle`
     color: inherit;
     text-decoration: none;
   }  
+  button {
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;  
+  }
 `
