@@ -32,7 +32,7 @@ const LightboxButton = styled.button`
   margin: 16px 16px 0 0;
 `
 
-export default function LiveBlogTopActions({ pined }) {
+export default function LiveBlogTopActions({ pined, showLighbox }) {
   return (
     <Wrapper>
       {pined ? (
@@ -44,7 +44,7 @@ export default function LiveBlogTopActions({ pined }) {
         <div />
       )}
 
-      <LightboxButton>
+      <LightboxButton onClick={() => showLighbox()}>
         <img src="/images/icon-expand.svg" alt="expand article" />
       </LightboxButton>
     </Wrapper>

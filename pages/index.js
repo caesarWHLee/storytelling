@@ -11,6 +11,7 @@ const GlobalStyles = createGlobalStyle`
 export default function Home() {
   return (
     <>
+      <div id="light-box-root" />
       <GlobalStyles />
       <JumbotronContainer />
       <LiveBlogContainr />
