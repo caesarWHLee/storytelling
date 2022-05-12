@@ -3,11 +3,14 @@ import styled from 'styled-components'
 
 const Wrapper = styled.div`
   display: flex;
+  position: relative;
   justify-content: space-between;
   align-items: center;
 `
 
 const Divider = styled.div`
+  position: absolute;
+  left: calc((100% - 384px) / 2);
   width: 384px;
   height: 0;
   border: 2px solid #000;
