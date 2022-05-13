@@ -50,37 +50,38 @@ const LiveBlog = styled.div`
 
 export default function LiveBlogItem({ pined, article }) {
   const [expanded, setExpanded] = useState(false)
-  const [showLightbox, setShowLightbox] = useState(false)
+  const [showAsLightbox, setShowAsLightbox] = useState(false)
 
   useEffect(() => {
-    if (showLightbox) {
+    if (showAsLightbox) {
       setExpanded(true)
     }
-  }, [showLightbox])
+  }, [showAsLightbox])
 
   const expandClickedHandler = () => {
     setExpanded((expanded) => !expanded)
   }
 
   const showLightboxClickedHandler = () => {
-    setShowLightbox((showLightbox) => !showLightbox)
+    setShowAsLightbox((showLightbox) => !showLightbox)
   }
 
   const closeLighboxClickedHandler = () => {
-    setShowLightbox(false)
+    setShowAsLightbox(false)
   }
 
   let LiveBlogItem = (
     <Wrapper
       pined={pined}
-      showAsLightbox={showLightbox}
+      showAsLightbox={showAsLightbox}
       onClick={(e) => {
         e.stopPropagation()
       }}
     >
       <LiveBlogTopActions
         pined={pined}
-        showLighbox={showLightboxClickedHandler}
+        showLightbox={showLightboxClickedHandler}
+        showAsLightbox={showAsLightbox}
       />
       <LiveBlogWrapper>
         <LiveBlog>
@@ -88,7 +89,7 @@ export default function LiveBlogItem({ pined, article }) {
           <LiveBlogItemContent article={article} expanded={expanded} />
         </LiveBlog>
       </LiveBlogWrapper>
-      {!showLightbox && (
+      {!showAsLightbox && (
         <LiveBlogBottomActions
           onClick={expandClickedHandler}
           expanded={expanded}
@@ -97,7 +98,7 @@ export default function LiveBlogItem({ pined, article }) {
     </Wrapper>
   )
 
-  if (showLightbox) {
+  if (showAsLightbox) {
     LiveBlogItem = ReactDom.createPortal(
       <Backdrop onClick={closeLighboxClickedHandler}>
         <GlobalStyles />
