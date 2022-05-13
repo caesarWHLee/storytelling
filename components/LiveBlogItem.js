@@ -36,8 +36,6 @@ const Wrapper = styled.div`
 
 const LiveBlogWrapper = styled.div`
   border: 1px solid #000;
-  height: ${({ expanded }) => (expanded ? 'unset' : '479px')};
-  min-height: ${({ expanded }) => (expanded ? '479px' : 'unset')};
   padding: 20px 128px 56px 128px;
 
   @media (max-width: 768px) {
@@ -84,10 +82,10 @@ export default function LiveBlogItem({ pined, article }) {
         pined={pined}
         showLighbox={showLightboxClickedHandler}
       />
-      <LiveBlogWrapper expanded={expanded}>
+      <LiveBlogWrapper>
         <LiveBlog>
           <LiveBlogItemHeader article={article} />
-          <LiveBlogItemContent article={article} />
+          <LiveBlogItemContent article={article} expanded={expanded} />
         </LiveBlog>
       </LiveBlogWrapper>
       {!showLightbox && (

@@ -1,3 +1,4 @@
+import { useRef, useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { Editor, EditorState, convertFromRaw } from 'draft-js'
 import decorators from '../libs/draft-js/entity-decorator'
@@ -71,11 +72,57 @@ const HeroImageCaption = styled.div`
 
 const DraftEditorWrapper = styled.div`
   margin-top: 20px;
+  overflow: hidden;
+  height: ${({ expanded, height }) => (expanded ? 'unset' : `${height}px`)};
+  min-height: ${({ expanded, height }) => (expanded ? `${height}px` : 'unset')};
 `
 
-export default function LiveBlogItemContent({ article }) {
+// 5 lines of normal text
+const defaultContentHeight = 87.5
+
+export default function LiveBlogItemContent({ article, expanded }) {
+  const targetRef = useRef()
+  const [contentHeight, setContentHeight] = useState(defaultContentHeight)
+
   const contentState = convertFromRaw(article.name)
   const editorState = EditorState.createWithContent(contentState, decorators)
+
+  useEffect(() => {
+    if (targetRef.current) {
+      /*
+      to limit the displaying contents' height not greater than defaultContentHeight
+      loop over draftjs contentBlock to check if accumulation of heights exceeds defaultContentHeight 
+      use accumulation of heights to prevent words cut in the middle
+      if 
+      */
+      console.log(targetRef.current)
+      const contentBlocks = [
+        ...targetRef.current.querySelectorAll('[data-block="true"]'),
+      ]
+
+      let accumulationHeight = 0
+      let lastMarginBottom = 0
+
+      contentBlocks.every((contentBlock) => {
+        let height = contentBlock.clientHeight
+        const style = getComputedStyle(contentBlock)
+        let marginTop = parseInt(style.marginTop)
+        if (lastMarginBottom) {
+          // prevent double counting margin since margin collapses
+          marginTop =
+            lastMarginBottom > marginTop ? 0 : lastMarginBottom - marginTop
+        }
+        let marginBottom = parseInt(style.marginBottom)
+        lastMarginBottom = marginBottom
+
+        height += marginTop
+        height += marginBottom
+        accumulationHeight += height
+        return accumulationHeight > defaultContentHeight ? false : true
+      })
+      setContentHeight(accumulationHeight)
+    }
+  }, [])
 
   return (
     <Wrapper>
@@ -86,7 +133,11 @@ export default function LiveBlogItemContent({ article }) {
           圖說圖說圖說圖說圖說圖說圖說圖說圖說圖說圖說圖說圖說圖說圖說圖說圖說圖說圖說圖說圖說圖說圖說
         </HeroImageCaption>
       </HeroImageWrapper>
-      <DraftEditorWrapper>
+      <DraftEditorWrapper
+        expanded={expanded}
+        ref={targetRef}
+        height={contentHeight}
+      >
         <Editor
           editorState={editorState}
           readOnly
