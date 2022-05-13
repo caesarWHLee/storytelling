@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import moment from 'moment'
 
 const Category = styled.span`
   font-weight: 900;
@@ -63,19 +64,28 @@ const PublishDate = styled.div`
   }
 `
 
-export default function LiveBlogItemHeader() {
+moment.locale('zh-tw', {
+  weekdays: '星期日_星期一_星期二_星期三_星期四_星期五_星期六'.split('_'),
+})
+
+export default function LiveBlogItemHeader({ article }) {
   return (
     <div>
       <div>
-        <Category>疫情</Category>
-        <Category>烏克蘭戰爭</Category>
+        {article.tags.map((tag) => (
+          <Category key={tag}>{tag}</Category>
+        ))}
       </div>
       <PublishInfoWrapper>
         <PublisherWrapper>
           <PublisherAvatar />
-          <PublisherName>記者姓名</PublisherName>
+          <PublisherName>{article.author || 'No Name'}</PublisherName>
         </PublisherWrapper>
-        <PublishDate>2022年2月22日 星期二 22:22</PublishDate>
+        <PublishDate>
+          {moment(article.publishTime)
+            .locale('zh_tw')
+            .format('YYYY年MM月DD日 dddd HH:mm')}
+        </PublishDate>
       </PublishInfoWrapper>
     </div>
   )

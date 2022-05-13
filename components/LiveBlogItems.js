@@ -16,7 +16,9 @@ const Wrapper = styled.div`
 export default function LiveBlogItems(props) {
   return (
     <Wrapper>
-      <LiveBlogItem pined article={props.pinedArticle} />
+      {props.pinedArticle && (
+        <LiveBlogItem pined article={props.pinedArticle} />
+      )}
       {props.articles.map((article) => (
         <LiveBlogItem key={article.id} article={article} />
       ))}

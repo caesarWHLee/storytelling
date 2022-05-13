@@ -50,7 +50,7 @@ const LiveBlog = styled.div`
   height: 100%;
 `
 
-export default function LiveBlogItem({ pined }) {
+export default function LiveBlogItem({ pined, article }) {
   const [expanded, setExpanded] = useState(false)
   const [showLightbox, setShowLightbox] = useState(false)
 
@@ -86,8 +86,8 @@ export default function LiveBlogItem({ pined }) {
       />
       <LiveBlogWrapper expanded={expanded}>
         <LiveBlog>
-          <LiveBlogItemHeader />
-          <LiveBlogItemContent />
+          <LiveBlogItemHeader article={article} />
+          <LiveBlogItemContent article={article} />
         </LiveBlog>
       </LiveBlogWrapper>
       {!showLightbox && (

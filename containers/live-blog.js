@@ -4,10 +4,11 @@ import Intro from '../components/Intro'
 import LiveBlogControl from '../components/LiveBlogControl'
 import LiveBlogItems from '../components/LiveBlogItems'
 import LiveBlogWrapper from '../components/LiveBlogWrapper'
+import response from '../datas/liveblog.json'
 
 export default function LiveBlogContainr() {
   const [articles, setArticles] = useState([])
-  const [pinedArticle, setPinedArticle] = useState({})
+  const [pinedArticle, setPinedArticle] = useState(null)
   const [showingArticles, showingArticlesRef, setShowingArticles] =
     useReferredState([])
   const [, hidingArticlesRef, setHidingArticles] = useReferredState([])
@@ -46,26 +47,26 @@ export default function LiveBlogContainr() {
 
   useEffect(() => {
     //fake fetch json data
-    const articleData = [
-      { id: 1 },
-      { id: 2 },
-      { id: 3 },
-      { id: 4 },
-      { id: 5 },
-      { id: 6 },
-      { id: 7 },
-      { id: 8 },
-      { id: 9 },
-      { id: 10 },
-      { id: 11 },
-    ]
+    const articleData = response.data.liveblog.liveblog_items
+    // [
+    //   { id: 1 },
+    //   { id: 2 },
+    //   { id: 3 },
+    //   { id: 4 },
+    //   { id: 5 },
+    //   { id: 6 },
+    //   { id: 7 },
+    //   { id: 8 },
+    //   { id: 9 },
+    //   { id: 10 },
+    //   { id: 11 },
+    // ]
     const articleToBePined = getPinedArticle(articleData)
     setArticles(articleData)
     setPinedArticle(articleToBePined)
   }, [])
 
   useEffect(() => {
-    console.log(articles)
     if (articles.length) {
       const articlesToHide = [...articles]
       const articlesToShow = articlesToHide.splice(0, 4)

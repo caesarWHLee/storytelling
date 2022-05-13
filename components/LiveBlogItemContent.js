@@ -1,4 +1,31 @@
 import styled from 'styled-components'
+import { Editor, EditorState, convertFromRaw } from 'draft-js'
+import decorators from '../libs/draft-js/entity-decorator'
+import { atomicBlockRenderer } from '../libs/draft-js/block-redender-fn'
+
+// to be separate
+const styleMap = {
+  CODE: {
+    backgroundColor: 'rgba(0, 0, 0, 0.05)',
+    fontFamily: '"Inconsolata", "Menlo", "Consolas", monospace',
+    fontSize: 16,
+    padding: 2,
+  },
+}
+const blockRendererFn = (block) => {
+  const atomicBlockObj = atomicBlockRenderer(block)
+  return atomicBlockObj
+}
+
+const getBlockStyle = (block) => {
+  switch (block.getType()) {
+    case 'blockquote':
+      return 'RichEditor-blockquote'
+
+    default:
+      return null
+  }
+}
 
 const Wrapper = styled.div`
   margin-top: 16px;
@@ -46,10 +73,13 @@ const DraftEditorWrapper = styled.div`
   margin-top: 20px;
 `
 
-export default function LiveBlogItemContent() {
+export default function LiveBlogItemContent({ article }) {
+  const contentState = convertFromRaw(article.name)
+  const editorState = EditorState.createWithContent(contentState, decorators)
+
   return (
     <Wrapper>
-      <Title>標題標題標題標題標題標題標題標題標題標題標題標題標題標題</Title>
+      <Title>{article.title}</Title>
       <HeroImageWrapper>
         <img src="/images/hero-image-1.png" alt="hero image" />
         <HeroImageCaption>
@@ -57,19 +87,13 @@ export default function LiveBlogItemContent() {
         </HeroImageCaption>
       </HeroImageWrapper>
       <DraftEditorWrapper>
-        前言好好看讓他們是怎麼，位置一個前也好沒在，好好肺炎很喜歡成一家裡就到現在，會更種事情有很多，謝謝是今天其實，的話會。出貨的這個⋯到喜歡，啊我有這個去概也很感：的沒在是為比較好真的的時候，努力提早有很多底是阿阿⋯真可以呼分我還以用一兔要的。
-        是本資那心情感謝，很死底是，為了一樣的不認的不，發現是家看雖然，過度？裡剛好了這樣？對過他直接表整活看來認親卡，所以就150字。前言好好看讓他們是怎麼，位置一個前也好沒在，好好肺炎很喜歡成一家裡就到現在，會更種事情有很多，謝謝是今天其實，的話會。出貨的這個⋯到喜歡，啊我有這個去概也很感：的沒在是為比較好真的的時候，努力提早有很多底是阿阿⋯真可以呼分我還以用一兔要的。
-        是本資那心情感謝，很死底是，為了一樣的不認的不，發現是家看雖然，過度？裡剛好了這樣？對過他直接表整活看來認親卡，所以就300字......
-        <br />
-        <br />
-        前言好好看讓他們是怎麼，位置一個前也好沒在，好好肺炎很喜歡成一家裡就到現在，會更種事情有很多，謝謝是今天其實，的話會。出貨的這個⋯到喜歡，啊我有這個去概也很感：的沒在是為比較好真的的時候，努力提早有很多底是阿阿⋯真可以呼分我還以用一兔要的。
-        是本資那心情感謝，很死底是，為了一樣的不認的不，發現是家看雖然，過度？裡剛好了這樣？對過他直接表整活看來認親卡，所以就150字。前言好好看讓他們是怎麼，位置一個前也好沒在，好好肺炎很喜歡成一家裡就到現在，會更種事情有很多，謝謝是今天其實，的話會。出貨的這個⋯到喜歡，啊我有這個去概也很感：的沒在是為比較好真的的時候，努力提早有很多底是阿阿⋯真可以呼分我還以用一兔要的。
-        是本資那心情感謝，很死底是，為了一樣的不認的不，發現是家看雖然，過度？裡剛好了這樣？對過他直接表整活看來認親卡，所以就300字......
-        <br />
-        <br />
-        前言好好看讓他們是怎麼，位置一個前也好沒在，好好肺炎很喜歡成一家裡就到現在，會更種事情有很多，謝謝是今天其實，的話會。出貨的這個⋯到喜歡，啊我有這個去概也很感：的沒在是為比較好真的的時候，努力提早有很多底是阿阿⋯真可以呼分我還以用一兔要的。
-        是本資那心情感謝，很死底是，為了一樣的不認的不，發現是家看雖然，過度？裡剛好了這樣？對過他直接表整活看來認親卡，所以就150字。前言好好看讓他們是怎麼，位置一個前也好沒在，好好肺炎很喜歡成一家裡就到現在，會更種事情有很多，謝謝是今天其實，的話會。出貨的這個⋯到喜歡，啊我有這個去概也很感：的沒在是為比較好真的的時候，努力提早有很多底是阿阿⋯真可以呼分我還以用一兔要的。
-        是本資那心情感謝，很死底是，為了一樣的不認的不，發現是家看雖然，過度？裡剛好了這樣？對過他直接表整活看來認親卡，所以就300字......
+        <Editor
+          editorState={editorState}
+          readOnly
+          customStyleMap={styleMap}
+          blockRendererFn={blockRendererFn}
+          blockStyleFn={getBlockStyle}
+        />
       </DraftEditorWrapper>
     </Wrapper>
   )
