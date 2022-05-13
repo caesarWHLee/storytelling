@@ -1,32 +1,6 @@
 import { useRef, useState, useEffect } from 'react'
 import styled from 'styled-components'
-import { Editor, EditorState, convertFromRaw } from 'draft-js'
-import decorators from '../libs/draft-js/entity-decorator'
-import { atomicBlockRenderer } from '../libs/draft-js/block-redender-fn'
-
-// to be separate
-const styleMap = {
-  CODE: {
-    backgroundColor: 'rgba(0, 0, 0, 0.05)',
-    fontFamily: '"Inconsolata", "Menlo", "Consolas", monospace',
-    fontSize: 16,
-    padding: 2,
-  },
-}
-const blockRendererFn = (block) => {
-  const atomicBlockObj = atomicBlockRenderer(block)
-  return atomicBlockObj
-}
-
-const getBlockStyle = (block) => {
-  switch (block.getType()) {
-    case 'blockquote':
-      return 'RichEditor-blockquote'
-
-    default:
-      return null
-  }
-}
+import DraftRenderer from './DraftRenderer'
 
 const Wrapper = styled.div`
   margin-top: 16px;
@@ -84,9 +58,6 @@ export default function LiveBlogItemContent({ article, expanded }) {
   const targetRef = useRef()
   const [contentHeight, setContentHeight] = useState(defaultContentHeight)
 
-  const contentState = convertFromRaw(article.name)
-  const editorState = EditorState.createWithContent(contentState, decorators)
-
   useEffect(() => {
     if (targetRef.current) {
       /*
@@ -138,13 +109,7 @@ export default function LiveBlogItemContent({ article, expanded }) {
         ref={targetRef}
         height={contentHeight}
       >
-        <Editor
-          editorState={editorState}
-          readOnly
-          customStyleMap={styleMap}
-          blockRendererFn={blockRendererFn}
-          blockStyleFn={getBlockStyle}
-        />
+        <DraftRenderer rawContentBlock={article.name} />
       </DraftEditorWrapper>
     </Wrapper>
   )
