@@ -20,8 +20,19 @@ export default function LiveBlog({
   const intervalIdRef = useRef()
 
   useEffect(() => {
+    const onPostMessage = (e) => {
+      console.log('got post message', e)
+    }
+    window.addEventListener('message', onPostMessage)
+    return () => {
+      window.removeEventListener('message', onPostMessage)
+    }
+  }, [])
+
+  useEffect(() => {
     const fetchLiveblog = async (url) => {
       try {
+        console.log(url)
         const response = await axios.get(url)
 
         if (response?.data) {
@@ -75,7 +86,7 @@ export async function getServerSideProps({ query }) {
   let fetchImageBaseUrl = ''
   const gcsBucketBaseUrl = process.env.GCS_BUCKET_URL
     ? process.env.GCS_BUCKET_URL
-    : 'https://editools-gcs-dev.readr.tw'
+    : ''
 
   console.log(liveblogFileName, gcsBucketBaseUrl)
   if (liveblogFileName) {
