@@ -44,7 +44,7 @@ const PinedIcon = styled.img`
   }
 `
 
-const LightboxButton = styled.button`
+const LightboxButtons = styled.div`
   margin: 16px 16px 0 0;
 
   @media (max-width: 768px) {
@@ -56,6 +56,7 @@ export default function LiveBlogTopActions({
   pined,
   showLightbox,
   showAsLightbox,
+  id,
 }) {
   return (
     <Wrapper>
@@ -67,13 +68,28 @@ export default function LiveBlogTopActions({
       ) : (
         <div />
       )}
-
-      <LightboxButton onClick={() => showLightbox()}>
-        <img
-          src={`/images/${showAsLightbox ? 'icon-close' : 'icon-expand'}.svg`}
-          alt="expand article"
-        />
-      </LightboxButton>
+      <LightboxButtons>
+        <button
+          onClick={() =>
+            window.open(
+              new URLSearchParams(window.location.search).get('url') +
+                `#liveblog-item-${id}`,
+              '_blank'
+            )
+          }
+        >
+          <img
+            src={`/images/${showAsLightbox ? 'icon-close' : 'icon-expand'}.svg`}
+            alt="expand article"
+          />
+        </button>
+        <button onClick={() => showLightbox()}>
+          <img
+            src={`/images/${showAsLightbox ? 'icon-close' : 'icon-expand'}.svg`}
+            alt="expand article"
+          />
+        </button>
+      </LightboxButtons>
     </Wrapper>
   )
 }

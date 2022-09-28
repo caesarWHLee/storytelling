@@ -16,6 +16,46 @@ export default function LiveBlogContainr({ liveblog, fetchImageBaseUrl }) {
   const [showingLiveblogItems, setShowingLiveblogItems] = useState([])
   const [newToOld, setNewToOld] = useState(true)
   const loadingMoreRef = useRef(false)
+  const firstLoaded = useRef(true)
+
+  useEffect(() => {
+    console.log(window.location.hash)
+    if (window.location !== window.parent.location) {
+      // The page is in an iframe
+      console.log(
+        'The page is in an iframe',
+        document.referrer,
+        document.location.href
+      )
+    } else {
+      // The page is not in an iframe
+      console.log('The page is not in an iframe')
+    }
+  })
+
+  useEffect(() => {
+    liveblogItemsRef.current = liveblog.liveblog_items
+    const liveblogItemsToShow = liveblogItemsRef.current
+      .filter((liveblogItem) => !liveblogItem.boost)
+      .sort((a, b) => {
+        const tsA = moment(a.publishTime).valueOf()
+        const tsB = moment(b.publishTime).valueOf()
+        return tsB - tsA
+      })
+    if (document.location.hash && firstLoaded.current) {
+      const index = liveblogItemsToShow.findIndex(
+        (liveblogItem) =>
+          `#liveblog-item-${liveblogItem.id}` === document.location.hash
+      )
+      console.log(
+        `index ${index} of liveblog `,
+        liveblogItemsToShow[index],
+        Math.ceil((index + 1) / 5) * 5
+      )
+      setShowingCount(Math.ceil((index + 1) / 5) * 5)
+      firstLoaded.current = false
+    }
+  }, [liveblog])
 
   useEffect(() => {
     if (liveblog?.liveblog_items) {

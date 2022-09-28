@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import styled, { createGlobalStyle } from 'styled-components'
 import LiveBlogBottomActions from './LiveBlogBottomActions'
 import LiveBlogItemContent from './LiveBlogItemContent'
@@ -69,12 +69,22 @@ export default function LiveBlogItem({ pined, article, fetchImageBaseUrl }) {
   const [expanded, setExpanded] = useState(false)
   const [showAsLightbox, setShowAsLightbox] = useState(false)
   const [hideExpandButton, setHideExpandButton] = useState(false)
+  const wrapperRef = useRef()
 
   useEffect(() => {
     if (showAsLightbox) {
       setExpanded(true)
     }
   }, [showAsLightbox])
+
+  useEffect(() => {
+    if (
+      document.location.hash &&
+      `#${wrapperRef.current.id}` === document.location.hash
+    ) {
+      wrapperRef.current.scrollIntoView()
+    }
+  }, [])
 
   const expandClickedHandler = () => {
     setExpanded((expanded) => !expanded)
@@ -100,6 +110,7 @@ export default function LiveBlogItem({ pined, article, fetchImageBaseUrl }) {
         pined={pined}
         showLightbox={showLightboxClickedHandler}
         showAsLightbox={showAsLightbox}
+        id={article.id}
       />
       <LiveBlogWrapper>
         <LiveBlog>
@@ -123,8 +134,10 @@ export default function LiveBlogItem({ pined, article, fetchImageBaseUrl }) {
 
   return (
     <Wrapper
+      id={`liveblog-item-${article.id}`}
       showAsLightbox={showAsLightbox}
       onClick={closeLighboxClickedHandler}
+      ref={wrapperRef}
     >
       {showAsLightbox && <GlobalStyles />}
       {LiveBlogItem}
